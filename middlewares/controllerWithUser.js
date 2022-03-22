@@ -1,12 +1,23 @@
 const user = require('../models/userModel')
 const { use } = require('../routes/userRoutes')
+const asyncHandle = require('./asyncHandle')
 
 const getAllUsersAndPosts = (req,res) =>{
     user.findOne({}).then((data)=>{
         res.json(data)
     })
-    .catch(err=>{
-        console.log('nguyeen an cute')
+}
+
+const getUserAndPosts = (req,res)=>{
+    user.findOne({
+        id: req.body.id
+    }).then(data=>{
+        if(data){
+            res.json({status: 'success', content: data})
+        }
+        else {
+            res.json('can\'t find from id')
+        }
     })
 }
 
@@ -59,3 +70,18 @@ const updateUserById = (req,res)=>{
         res.json('updated')
     })
 }
+
+
+
+
+// [NODEJS - BTVN]
+// Tạo 1 model User, Post phù hợp với các yêu cầu dưới
+// User và Post là quan hệ 1 - n (1 người có thể có nhiều bài viết)
+// Viết các api sau:
+// Lấy ra thông tin và bài viết của tất cả user
+// Lấy ra thông tin và bài viết của 1 người dùng theo (id user)
+// Lấy ra các user có tuổi nằm trong khoảng 18 - 40 tuổi
+// Lấy ra các user có tên bắt đầu bằng chữ "h"
+// Cập nhật thông tin của người dùng theo id
+// Xoá người dùng theo id
+// Viết 1 middleware để các api thứ 1,3,4,6 phải có quyền admin mới được dùng
