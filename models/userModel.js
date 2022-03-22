@@ -12,6 +12,18 @@ const userSchema = new Schema({
         required: [true,"Vui lòng nhập tuổi"],
         min:5,
         max:100
-    }
+    },
+    role:{
+        type:String,
+        enum:["user","admin"]
+        
+    },
+    password:String,
+    post:[
+        {content: String,
+        title: string,
+        comment: [{user: String, comment: String}]
+        }
+    ]
 });
-module.exports = mongoose.model("users",userSchema)
+module.exports = mongoose.model("Users",userSchema)
